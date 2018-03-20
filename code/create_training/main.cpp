@@ -20,7 +20,7 @@ int main(){
     scanf("%s", id);
 
     //cascade and load
-    String face_cascade_name("haarcascade_frontalface_alt.xml");
+    String face_cascade_name = "haarcascade_frontalface_alt.xml";
     CascadeClassifier face_cascade;
 
     face_cascade.load(face_cascade_name);
@@ -46,24 +46,28 @@ int main(){
         face_cascade.detectMultiScale(gray, faces, 1.1, 2, 0|CASCADE_SCALE_IMAGE, Size(30, 30));
 
         //loop draw rectangular
-        for(size_t i;i<faces.size();i++){
+        for(size_t i=0;i<faces.size();i++){
 
             //point begin and end of faces
             Point f_begin(faces[i].x, faces[i].y);
             Point f_end(faces[i].x + faces[i].width , faces[i].y + faces[i].height);
-            num++;
 
-            sprintf(path, "user\%d.img", num);
-            imwrite(path, frame, CV_IMWRITE_JPEG_QUALITY);
-            waitKey(100);
+            Rect crop = Rect(faces[i].x, faces[i].y, faces[i].width, faces[i].height);
+            Mat cropimage = gray(crop);
+
+
+            num++;
+            sprintf(path, "user/user%d.jpg", num);
+            imwrite(path, cropimage);
+
+            waitKey(1);
 
             //draw rectangular
             rectangle(frame, f_begin, f_end, Scalar(0, 255, 0), 2);
         }
         imshow("face", frame);
 
-
-        if (num >= 20) break;
+        if (num >= 100) break;
         waitKey(1);
 
 
