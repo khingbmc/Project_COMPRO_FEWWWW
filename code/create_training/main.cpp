@@ -67,7 +67,7 @@ int main(){
         }
         imshow("face", frame);
 
-        if (num >= 100) break;
+        if (num >= 20) break;
         waitKey(1);
 
 
